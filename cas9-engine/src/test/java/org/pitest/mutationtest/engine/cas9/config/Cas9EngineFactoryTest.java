@@ -78,10 +78,12 @@ class Cas9EngineFactoryTest {
         nCopies(aor().size(), "AOR"), // double y = a / x;
         nCopies(uoi().size(), "UOI"), // skipIt(++x, y)
         nCopies(uoi().size(), "UOI"), // skipIt(x, ++y)
+        singleton("Voi"), // remove: skipIt(x, y)
         nCopies(uoi().size(), "UOI"), // if (++a < b)
         nCopies(uoi().size(), "UOI"), // if (a < ++b)
         nCopies(ror().size(), "ROR"), // if (a <= b)
-        nCopies(uoi().size(), "UOI")) // System.out.println("a: " + a++);
+        nCopies(uoi().size(), "UOI"), // System.out.println("a: " + a++);
+        singleton("Voi"))  // System.out.println("a: " + a++);
         .flatMap(Collection::stream)
         .toArray(String[]::new);
 

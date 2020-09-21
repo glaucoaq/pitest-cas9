@@ -1,10 +1,9 @@
 package org.pitest.mutationtest.engine.cas9.mutators;
 
-import static java.util.Collections.singleton;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.stream.Collectors.toSet;
 import static org.pitest.mutationtest.engine.cas9.mutators.lcr.LCRMutator.lcr;
-import static org.pitest.mutationtest.engine.cas9.mutators.sbr.SBRMutator.SBR_MUTATOR;
+import static org.pitest.mutationtest.engine.cas9.mutators.sbr.SBRMutator.sbr;
 import static org.pitest.mutationtest.engine.gregor.config.Mutator.aor;
 import static org.pitest.mutationtest.engine.gregor.config.Mutator.ror;
 import static org.pitest.mutationtest.engine.gregor.config.Mutator.uoi;
@@ -47,7 +46,7 @@ public class Cas9Mutators {
     mutatorByName.put("LCR", lcr());
     mutatorByName.put("UOI", uoi());
     mutatorByName.put("ROR", ror());
-    mutatorByName.put("SBR", singleton(SBR_MUTATOR));
+    mutatorByName.put("SBR", sbr());
     mutatorByName.put("AOR", aor());
     return unmodifiableMap(mutatorByName);
   }
