@@ -98,6 +98,20 @@
                 <goals>
                   <goal>shade</goal>
                 </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>flatten-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-flatten</id>
+                <goals>
+                  <goal>flatten</goal>
+                </goals>
+                <phase>package</phase>
               </execution>
             </executions>
           </plugin>
@@ -111,8 +125,18 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <passphrase>${gpg.passphrase}</passphrase>
+                </configuration>
               </execution>
             </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
           </plugin>
         </plugins>
       </build>
