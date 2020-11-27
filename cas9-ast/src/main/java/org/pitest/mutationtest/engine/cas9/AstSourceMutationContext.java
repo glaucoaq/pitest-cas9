@@ -20,11 +20,11 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.Delegate;
 import lombok.val;
-import org.objectweb.asm.Type;
-import org.pitest.mutationtest.build.intercept.ast.ClassAstSource;
+import org.pitest.ast.ClassAstSource;
 import org.pitest.mutationtest.engine.gregor.GregorClassContext;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
+import org.pitest.reloc.asm.Type;
 
 @Value(staticConstructor = "of")
 class AstSourceMutationContext implements MutationContext, MethodAstInfoSource {

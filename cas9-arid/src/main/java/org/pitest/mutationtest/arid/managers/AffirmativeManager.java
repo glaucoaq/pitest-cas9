@@ -2,6 +2,7 @@ package org.pitest.mutationtest.arid.managers;
 
 import com.github.javaparser.ast.Node;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.pitest.mutationtest.arid.AridityDetectionVoter;
@@ -9,9 +10,10 @@ import org.pitest.mutationtest.arid.NodeAridity;
 import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 
-class AffirmativeManager extends AbstractAridityDetectionManager {
+public class AffirmativeManager extends AbstractAridityDetectionManager {
 
-  public AffirmativeManager(Function<MutationIdentifier, Node> mapper, Collection<AridityDetectionVoter> voters) {
+  public AffirmativeManager(Function<MutationIdentifier, Optional<Node>> mapper,
+      Collection<AridityDetectionVoter> voters) {
     super(mapper, voters);
   }
 

@@ -4,7 +4,8 @@ import static org.pitest.functional.prelude.Prelude.not;
 
 import com.github.javaparser.ast.Node;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.NonNull;
@@ -18,7 +19,7 @@ import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 
 @RequiredArgsConstructor
-public class AridNodeMutationFilter implements AstSupportMutationInterceptor {
+class AridNodeMutationFilter implements AstSupportMutationInterceptor {
 
   @NonNull
   private final AridityDetectionManagerFactory factory;
@@ -30,8 +31,8 @@ public class AridNodeMutationFilter implements AstSupportMutationInterceptor {
 
   @Override
   public Collection<MutationDetails> intercept(@NonNull Collection<MutationDetails> mutations,
-      @NonNull Map<MutationIdentifier, Node> nodeById, Mutater mutater) {
-    Predicate<MutationDetails> arid = factory.createManager(nodeById::get)::decide;
+      @NonNull Function<MutationIdentifier, Optional<Node>> nodeById, Mutater mutater) {
+    Predicate<MutationDetails> arid = factory.createManager(nodeById)::decide;
     return mutations.stream()
         .filter(not(arid))
         .collect(Collectors.toList());

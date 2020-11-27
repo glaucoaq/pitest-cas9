@@ -13,9 +13,23 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-entry</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.github.glaucoaq</groupId>
       <artifactId>cas9-ast</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.glaucoaq</groupId>
+      <artifactId>cas9-ast</artifactId>
+      <version>${project.version}</version>
+      <classifier>tests</classifier>
+      <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

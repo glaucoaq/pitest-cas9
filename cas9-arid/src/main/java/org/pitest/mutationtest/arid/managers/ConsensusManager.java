@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.partitioningBy;
 
 import com.github.javaparser.ast.Node;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.val;
@@ -13,9 +14,10 @@ import org.pitest.mutationtest.arid.NodeAridity;
 import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 
-class ConsensusManager extends AbstractAridityDetectionManager {
+public class ConsensusManager extends AbstractAridityDetectionManager {
 
-  public ConsensusManager(Function<MutationIdentifier, Node> mapper, Collection<AridityDetectionVoter> voters) {
+  public ConsensusManager(Function<MutationIdentifier, Optional<Node>> mapper,
+      Collection<AridityDetectionVoter> voters) {
     super(mapper, voters);
   }
 
