@@ -1,3 +1,3 @@
-org.pitest.mutationtest.build.intercept.arid.ExpertAridNodeMutationFilterFactoryTest$AlwaysAbstainVoter
-org.pitest.mutationtest.build.intercept.arid.ExpertAridNodeMutationFilterFactoryTest$AlwaysAridVoter
-org.pitest.mutationtest.build.intercept.arid.ExpertAridNodeMutationFilterFactoryTest$AlwaysRelevantVoter
+org.pitest.mutationtest.arid.expert.ExpertAridityDetectionManagerFactoryTest$AlwaysAbstainVoter
+org.pitest.mutationtest.arid.expert.ExpertAridityDetectionManagerFactoryTest$AlwaysAridVoter
+org.pitest.mutationtest.arid.expert.ExpertAridityDetectionManagerFactoryTest$AlwaysRelevantVoter

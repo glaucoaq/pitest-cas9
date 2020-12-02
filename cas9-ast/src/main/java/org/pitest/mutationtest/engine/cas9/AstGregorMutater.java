@@ -1,16 +1,18 @@
 package org.pitest.mutationtest.engine.cas9;
 
 import static java.util.stream.Collectors.toList;
+import static lombok.AccessLevel.PROTECTED;
 
 import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.val;
+import org.pitest.ast.ClassAstSource;
 import org.pitest.classinfo.ClassByteArraySource;
 import org.pitest.classinfo.ClassWriterFactory;
-import org.pitest.mutationtest.build.intercept.ast.ClassAstSource;
 import org.pitest.mutationtest.engine.gregor.AbstractGregorMutater;
 import org.pitest.mutationtest.engine.gregor.GregorClassContext;
 import org.pitest.mutationtest.engine.gregor.GregorClassWriterFactory;
@@ -27,13 +29,14 @@ public class AstGregorMutater extends AbstractGregorMutater {
 
   private final ClassWriterFactory writerFactory;
 
+  @Getter(PROTECTED)
   private final ClassAstSource classAstSource;
 
   public AstGregorMutater(Predicate<MethodInfo> filter, ClassByteArraySource byteSource,
-      Collection<MethodMutatorFactory> mutators) {
+      Collection<MethodMutatorFactory> mutators, ClassAstSource classAstSource) {
     super(filter, byteSource, mutators);
     writerFactory = new GregorClassWriterFactory(byteSource);
-    classAstSource = ClassAstSource.getDefault();
+    this.classAstSource = classAstSource;
   }
 
   @Override
