@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.github.glaucoaq</groupId>
     <artifactId>pitest-cas9</artifactId>
-    <version>1.0-beta</version>
+    <version>1.1-beta</version>
   </parent>
 
   <artifactId>cas9-plugin</artifactId>
