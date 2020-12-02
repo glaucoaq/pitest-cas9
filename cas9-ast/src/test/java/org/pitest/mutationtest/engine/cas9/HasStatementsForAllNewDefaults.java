@@ -1,6 +1,6 @@
 package org.pitest.mutationtest.engine.cas9;
 
-@SuppressWarnings({"unused", ""})
+@SuppressWarnings("unused")
 class HasStatementsForAllNewDefaults {
 
   int doIt(int j) {

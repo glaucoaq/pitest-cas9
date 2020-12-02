@@ -1,15 +1,22 @@
 package org.pitest.mutationtest.build.intercept.arid;
 
+import static lombok.AccessLevel.PACKAGE;
+
+import java.util.function.BiFunction;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.pitest.mutationtest.arid.AridityDetectionManagerFactory;
-import org.pitest.mutationtest.arid.managers.AridityDetectionMode;
-import org.pitest.mutationtest.arid.managers.ExpertAridityDetectionManagerFactory;
+import org.pitest.mutationtest.arid.expert.AridityDetectionMode;
+import org.pitest.mutationtest.arid.expert.ExpertAridityDetectionManagerFactory;
+import org.pitest.mutationtest.build.InterceptorParameters;
+import org.pitest.mutationtest.build.MutationInterceptor;
+import org.pitest.mutationtest.build.MutationInterceptorFactory;
 import org.pitest.plugin.Feature;
 import org.pitest.plugin.FeatureParameter;
-import org.pitest.plugin.FeatureSetting;
 import org.pitest.util.IsolationUtils;
 
-public class ExpertAridNodeMutationFilterFactory extends AbstractAridNodeMutationFilterFactory {
+@RequiredArgsConstructor(access = PACKAGE)
+public class ExpertAridNodeMutationFilterFactory implements MutationInterceptorFactory {
 
   static final String FEATURE_NAME = "FEARID";
 
@@ -17,13 +24,21 @@ public class ExpertAridNodeMutationFilterFactory extends AbstractAridNodeMutatio
       .named("mode")
       .withDescription("Arid node detection mode");
 
+  private final BiFunction<ClassLoader, AridityDetectionMode, AridityDetectionManagerFactory> createFactory;
+
+  @SuppressWarnings("unused")
+  public ExpertAridNodeMutationFilterFactory() {
+    this(ExpertAridityDetectionManagerFactory::new);
+  }
+
   @Override
-  protected AridityDetectionManagerFactory createManagerFactory(FeatureSetting feature) {
+  public MutationInterceptor createInterceptor(InterceptorParameters params) {
     val loader = IsolationUtils.getContextClassLoader();
-    val mode = feature.getString(MODE_PARAM.name())
+    val mode = params.getString(MODE_PARAM)
         .map(AridityDetectionMode::valueOf)
         .orElse(AridityDetectionMode.AFFIRMATIVE);
-    return new ExpertAridityDetectionManagerFactory(loader, mode);
+    val factory = createFactory.apply(loader, mode);
+    return new AridNodeMutationFilter(factory);
   }
 
   @Override

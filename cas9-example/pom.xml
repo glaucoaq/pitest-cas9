@@ -22,7 +22,7 @@
   <dependencies>
     <dependency>
       <groupId>com.github.glaucoaq</groupId>
-      <artifactId>cas9-engine</artifactId>
+      <artifactId>cas9-plugin</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -112,7 +112,7 @@
             <dependencies>
               <dependency>
                 <groupId>com.github.glaucoaq</groupId>
-                <artifactId>cas9-engine</artifactId>
+                <artifactId>cas9-plugin</artifactId>
                 <version>${project.version}</version>
               </dependency>
             </dependencies>

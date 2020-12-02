@@ -2,6 +2,7 @@ package org.pitest.mutationtest.engine.cas9.example.integration;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.util.Map;
@@ -21,10 +22,13 @@ class Cas9CoverageIT {
   @Test
   void shouldGenerateExpectedCoverageReport() {
     assertAll(
-        () -> assertEquals(1, coverage.get("AOR").get("KILLED")),
-        () -> assertEquals(4, coverage.get("ROR").get("KILLED")),
-        () -> assertEquals(3, coverage.get("ROR").get("SURVIVED")),
-        () -> assertEquals(3, coverage.get("UOI").get("SURVIVED")));
+        () -> assertEquals(1, coverage.get("AOR").get("KILLED"), "AOR [KILLED]"),
+        () -> assertNull(coverage.get("AOR").get("SURVIVED"), "AOR [SURVIVED]"),
+        () -> assertEquals(7, coverage.get("ROR").get("KILLED"), "ROR [KILLED]"),
+        () -> assertEquals(2, coverage.get("ROR").get("SURVIVED"), "ROR [SURVIVED]"),
+        () -> assertEquals(2, coverage.get("UOI").get("KILLED"), "UOI [KILLED]"),
+        () -> assertEquals(1, coverage.get("UOI").get("SURVIVED"), "UOI [SURVIVED]")
+    );
   }
 
   @Test

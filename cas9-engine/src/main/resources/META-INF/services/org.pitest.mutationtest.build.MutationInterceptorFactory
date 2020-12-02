@@ -1,6 +1,0 @@
-org.pitest.mutationtest.build.intercept.ast.ClassAstSettingsInterceptorFactory
-org.pitest.mutationtest.build.intercept.coverage.CoveredLinesOnlyFilterFactory
-org.pitest.mutationtest.build.intercept.limit.LimitNumberOfMutationsPerLineFilterFactory
-org.pitest.mutationtest.build.intercept.classrules.ClassRulesMutationFilterFactory
-org.pitest.mutationtest.build.intercept.arid.StandardAridNodeMutationFilterFactory
-org.pitest.mutationtest.build.intercept.arid.ExpertAridNodeMutationFilterFactory

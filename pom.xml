@@ -32,8 +32,8 @@
   <modules>
     <module>cas9-ast</module>
     <module>cas9-arid</module>
-    <module>cas9-mutators</module>
     <module>cas9-engine</module>
+    <module>cas9-plugin</module>
   </modules>
 
   <properties>
@@ -121,10 +121,7 @@
     <dependency>
       <groupId>org.pitest</groupId>
       <artifactId>pitest</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.pitest</groupId>
-      <artifactId>pitest-entry</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

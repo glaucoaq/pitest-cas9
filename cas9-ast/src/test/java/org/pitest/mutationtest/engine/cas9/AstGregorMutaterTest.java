@@ -31,6 +31,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -43,6 +44,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
+import org.pitest.ast.ClassAstSource;
 import org.pitest.classinfo.ClassName;
 import org.pitest.classpath.ClassPathByteArraySource;
 import org.pitest.mutationtest.engine.MutationDetails;
@@ -66,7 +68,9 @@ class AstGregorMutaterTest {
 
   static final ClassName TARGET_CLASS_NAME = ClassName.fromClass(HasStatementsForAllNewDefaults.class);
 
-  public static final String TARGET_MUTATIONS = "/mutator/HasStatementsForAllNewDefaults.json";
+  static final String TARGET_MUTATIONS = "/mutator/HasStatementsForAllNewDefaults.json";
+
+  static final ClassAstSource EMPTY_AST_SOURCE = (n, f) -> Optional.empty();
 
   enum HasEnumConstructor {
 
@@ -112,7 +116,7 @@ class AstGregorMutaterTest {
     val className = ClassName.fromClass(classToMutate);
     val expected = expectedIds.toArray(new String[0]);
     // Act
-    val actual = new AstGregorMutater(ALL_METHODS, byteSource, mutators)
+    val actual = new AstGregorMutater(ALL_METHODS, byteSource, mutators, EMPTY_AST_SOURCE)
         .findMutations(className)
         .stream()
         .map(MutationDetails::getMutator)
@@ -153,7 +157,7 @@ class AstGregorMutaterTest {
     val byteSource = new ClassPathByteArraySource();
     val className = ClassName.fromString(AstGregorMutaterTest.class.getName() + "." + classToMutate);
     // Act
-    val actual = new AstGregorMutater(ALL_METHODS, byteSource, mutators)
+    val actual = new AstGregorMutater(ALL_METHODS, byteSource, mutators, EMPTY_AST_SOURCE)
         .findMutations(className);
     // Assert
     assertThat(actual, is(empty()));
@@ -185,7 +189,7 @@ class AstGregorMutaterTest {
     // Arrange
     val byteSource = new ClassPathByteArraySource();
     // Act
-    val actual = new AstGregorMutater(ALL_METHODS, byteSource, NEW_DEFAULTS)
+    val actual = new AstGregorMutater(ALL_METHODS, byteSource, NEW_DEFAULTS, EMPTY_AST_SOURCE)
         .getMutation(mutationId);
     // Assert
     assertThat(actual, replaces(original, mutated));
@@ -223,7 +227,7 @@ class AstGregorMutaterTest {
     val contextCaptor = ArgumentCaptor.forClass(MutationContext.class);
     val methodInfoCaptor = ArgumentCaptor.forClass(MethodInfo.class);
     // Act
-    val actual = new AstGregorMutater(ALL_METHODS, byteSource, singleton(mutator))
+    val actual = new AstGregorMutater(ALL_METHODS, byteSource, singleton(mutator), EMPTY_AST_SOURCE)
         .findMutations(TARGET_CLASS_NAME);
     // Assert
     verify(mutator, atLeastOnce()).create(contextCaptor.capture(), methodInfoCaptor.capture(), any(MethodVisitor.class));
@@ -242,13 +246,13 @@ class AstGregorMutaterTest {
 
   @Test
   @ExtendWith(ClassAstSourceExtension.class)
-  void shouldCreateAstMethodVisitorInClassWhenSourceIsInitialized() {
+  void shouldCreateAstMethodVisitorInClassWhenSourceIsInitialized(ClassAstSource astSource) {
     // Arrange
     val byteSource = new ClassPathByteArraySource();
     val astInfoList = new ArrayList<MethodAstInfo>();
     val mutator = new AssertMethodAstInfoMutatorFactory(astInfoList::add);
     // Act
-    val actual = new AstGregorMutater(ALL_METHODS, byteSource, singleton(mutator))
+    val actual = new AstGregorMutater(ALL_METHODS, byteSource, singleton(mutator), astSource)
         .findMutations(TARGET_CLASS_NAME);
     // Assert
     val methodNames = astInfoList.stream()
@@ -279,7 +283,7 @@ class AstGregorMutaterTest {
 
   @Test
   @ExtendWith(ClassAstSourceExtension.class)
-  void shouldGetMutationAndAstInClassWhenSourceIsInitialized() {
+  void shouldGetMutationAndAstInClassWhenSourceIsInitialized(ClassAstSource astSource) {
     // Arrange
     val byteSource = new ClassPathByteArraySource();
     val mutator = spy(new MethodAstInfoIncrementsMutator());
@@ -290,7 +294,7 @@ class AstGregorMutaterTest {
         .orElseThrow(AssertionError::new);
     val astInfoCaptor = ArgumentCaptor.forClass(MethodAstInfo.class);
     // Act
-    val actual = new AstGregorMutater(ALL_METHODS, byteSource, singleton(mutator))
+    val actual = new AstGregorMutater(ALL_METHODS, byteSource, singleton(mutator), astSource)
         .getMutation(mutationId);
     // Assert
     verify(mutator, atLeastOnce()).create(any(MutationContext.class), any(AstNodeTracker.class),

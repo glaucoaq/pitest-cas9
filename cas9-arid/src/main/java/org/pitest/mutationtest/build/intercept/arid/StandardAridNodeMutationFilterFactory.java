@@ -1,17 +1,31 @@
 package org.pitest.mutationtest.build.intercept.arid;
 
-import org.pitest.mutationtest.arid.AridityDetectionManagerFactory;
-import org.pitest.mutationtest.arid.managers.StandardAridityDetectionManagerFactory;
-import org.pitest.plugin.Feature;
-import org.pitest.plugin.FeatureSetting;
+import static lombok.AccessLevel.PACKAGE;
 
-public class StandardAridNodeMutationFilterFactory extends AbstractAridNodeMutationFilterFactory {
+import java.util.function.Supplier;
+import lombok.RequiredArgsConstructor;
+import org.pitest.mutationtest.arid.AridityDetectionManagerFactory;
+import org.pitest.mutationtest.arid.standard.StandardAridityDetectionManagerFactory;
+import org.pitest.mutationtest.build.InterceptorParameters;
+import org.pitest.mutationtest.build.MutationInterceptor;
+import org.pitest.mutationtest.build.MutationInterceptorFactory;
+import org.pitest.plugin.Feature;
+
+@RequiredArgsConstructor(access = PACKAGE)
+public class StandardAridNodeMutationFilterFactory implements MutationInterceptorFactory {
 
   static final String FEATURE_NAME = "FSARID";
 
+  private final Supplier<AridityDetectionManagerFactory> createFactory;
+
+  @SuppressWarnings("unused")
+  public StandardAridNodeMutationFilterFactory() {
+    this(StandardAridityDetectionManagerFactory::new);
+  }
+
   @Override
-  protected AridityDetectionManagerFactory createManagerFactory(FeatureSetting feature) {
-    return new StandardAridityDetectionManagerFactory();
+  public MutationInterceptor createInterceptor(InterceptorParameters params) {
+    return new AridNodeMutationFilter(createFactory.get());
   }
 
   @Override
